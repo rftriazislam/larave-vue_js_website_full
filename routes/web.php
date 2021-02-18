@@ -17,3 +17,9 @@ use App\Http\Controllers\HomeController;
 //     return view('welcome');
 // });
 Route::get('/',[HomeController::class,'home'])->name('home');
+
+Route::any('/{slug}', function () {
+
+$output='<h1 style="text-align:center;color:red">Error Found 404</h1>';
+return $output;
+});
