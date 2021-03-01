@@ -5,8 +5,14 @@
 
 <div>
 
-<h1>Vue install------</h1>
+<h1 class="text-center">Vue install</h1>
 
 </div>
 
 </template>
+<style scoped>
+.text-center{
+    text-align: center;
+    color:red;
+}
+</style>
