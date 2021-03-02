@@ -16,7 +16,7 @@ use App\Http\Controllers\HomeController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/',[HomeController::class,'home'])->name('home');
+// Route::get('/',[HomeController::class,'home'])->name('home');
 
 Route::any('/{slug}', function () {
 
