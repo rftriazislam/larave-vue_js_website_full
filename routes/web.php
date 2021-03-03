@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,13 +13,11 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-// Route::get('/',[HomeController::class,'home'])->name('home');
-
-Route::any('/{slug}', function () {
-
-$output='<h1 style="text-align:center;color:red">Error Found 404</h1>';
-return $output;
+Route::get('/admin', function () {
+    return view('welcome');
 });
+Route::get('{any}', function () {
+    
+    return view('app');
+
+})->where('any', '.*');

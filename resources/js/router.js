@@ -1,16 +1,21 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import myfirstpage from './pages/myfirstpage'
-Vue.use(Router)
-
-const routers=[
+import AllProduct from './components/AllProduct.vue';
+import CreateProduct from './components/CreateProduct.vue';
+import EditProduct from './components/EditProduct.vue';
+ 
+export const routes = [
     {
- path:'/home-page',
-    component: myfirstpage
+        name: 'home',
+        path: '/',
+        component: AllProduct
+    },
+    {
+        name: 'create',
+        path: '/create',
+        component: CreateProduct
+    },
+    {
+        name: 'edit',
+        path: '/edit/:id',
+        component: EditProduct
     }
-]
-
-export default new Router ({
-mode:'history',
-routers:routers
-})
+];
