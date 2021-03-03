@@ -8,6 +8,7 @@
                         <label>Name</label>
                         <input type="text" class="form-control" v-model="product.name">
                     </div>
+                    
                     <div class="form-group">
                         <label>Detail</label>
                         <input type="text" class="form-control" v-model="product.detail">
