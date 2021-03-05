@@ -8,7 +8,7 @@
 
     <title>Blog</title>
 
-    <link href="{{ mix('css/app.css') }}" type="text/css" rel="stylesheet" />
+    <link href="/css/main.css" type="text/css" rel="stylesheet" />
 </head>
 
 <body>

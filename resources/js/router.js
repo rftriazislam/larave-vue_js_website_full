@@ -9,7 +9,7 @@ export const routes = [
     {
         name: 'home',
         path: '/',
-        component: AllProduct
+        // component: AllProduct
     },
     {
         name: 'hook',

@@ -19,7 +19,7 @@
 <h1 v-else>Item else showItem</h1>
 </div>
 <button @click="changeItem()">Submit</button>
-<button @click="showItem=!showItem">Row change</button>
+<button @click="showItem=!showItem">Row change </button>
 
     </div>
     
