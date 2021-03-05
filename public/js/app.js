@@ -2115,16 +2115,62 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      count: 0
+      count: 0,
+      blogs: [],
+      showItem: false
     };
   },
   methods: {
     Increment: function Increment(number) {
       this.count += number;
+    },
+    changeItem: function changeItem() {
+      this.showItem = !this.showItem;
     }
+  },
+  created: function created() {
+    var item = [{
+      id: 1,
+      title: 'the news pepar mention bd',
+      post: 'md aaa  dfd fsksk'
+    }, {
+      id: 2,
+      title: 'the news pepar mention bd',
+      'post': 'md aaa  dfd fsksk'
+    }, {
+      id: 3,
+      title: 'the news pepar mention bd',
+      'post': 'md aaa  dfd fsksk'
+    }, {
+      id: 4,
+      title: 'the news pepar mention bd',
+      'post': 'md aaa  dfd fsksk'
+    }, {
+      id: 5,
+      title: 'the news pepar mention bd',
+      'post': 'md aaa  dfd fsksk'
+    }];
+    this.blogs = item;
   }
 });
 
@@ -38515,35 +38561,85 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("h1", [_vm._v("Calculation opernator")]),
-    _vm._v(" "),
-    _c(
-      "button",
-      {
-        on: {
-          click: function($event) {
-            return _vm.Increment(1)
+  return _c(
+    "div",
+    [
+      _c("h1", [_vm._v("Calculation opernator")]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          on: {
+            click: function($event) {
+              return _vm.Increment(1)
+            }
           }
-        }
-      },
-      [_vm._v("Increment")]
-    ),
-    _vm._v(" "),
-    _c("p", [_vm._v("Count:" + _vm._s(_vm.count))]),
-    _vm._v(" "),
-    _c(
-      "button",
-      {
-        on: {
-          click: function($event) {
-            return _vm.Increment(-1)
+        },
+        [_vm._v("Increment")]
+      ),
+      _vm._v(" "),
+      _c("p", [_vm._v("Count:" + _vm._s(_vm.count))]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          on: {
+            click: function($event) {
+              return _vm.Increment(-1)
+            }
           }
-        }
-      },
-      [_vm._v("Decrement")]
-    )
-  ])
+        },
+        [_vm._v("Decrement")]
+      ),
+      _vm._v(" "),
+      _vm._l(_vm.blogs, function(blog, i) {
+        return _c("div", { key: i }, [
+          _c("p", [_vm._v("ID:" + _vm._s(blog.id))]),
+          _vm._v(" "),
+          _c("h1", [_vm._v("Title:" + _vm._s(blog.title))]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Post:" + _vm._s(blog.post))])
+        ])
+      }),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("div", [
+        _vm.showItem
+          ? _c("h1", [_vm._v("Item showItem")])
+          : _c("h1", [_vm._v("Item else showItem")])
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          on: {
+            click: function($event) {
+              return _vm.changeItem()
+            }
+          }
+        },
+        [_vm._v("Submit")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          on: {
+            click: function($event) {
+              _vm.showItem = !_vm.showItem
+            }
+          }
+        },
+        [_vm._v("Row change")]
+      )
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
