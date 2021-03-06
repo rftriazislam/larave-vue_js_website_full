@@ -35,6 +35,10 @@ import { routes } from './router';
  */
 import ViewUI from 'view-design';
 import 'view-design/dist/styles/iview.css';
+
+import Command from './command';
+Vue.mixin(Command);
+
 Vue.use(ViewUI);
 
 Vue.use(VueRouter);
