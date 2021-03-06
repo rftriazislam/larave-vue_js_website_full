@@ -33,6 +33,9 @@ import { routes } from './router';
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+import ViewUI from 'view-design';
+import 'view-design/dist/styles/iview.css';
+Vue.use(ViewUI);
 
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);

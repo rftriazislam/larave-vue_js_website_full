@@ -27,7 +27,9 @@
           <!--~~~ MENU LIST ~~~~~~-->
           <div class="_1side_menu_list">
             <ul class="_1side_menu_list_ul">
-              <li><a><Icon type="ios-speedometer" /> Overview</a></li>
+              <li><router-link to="/"><Icon type="ios-speedometer" /> Dashboard</router-link></li>
+              <li><router-link to="/tags"><Icon type="ios-speedometer" /> Tags</router-link></li>
+
             </ul>
           </div>
         </div>

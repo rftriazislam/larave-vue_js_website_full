@@ -3,13 +3,22 @@ import CreateProduct from './components/CreateProduct.vue';
 import EditProduct from './components/EditProduct.vue';
 import Hook from './components/pages/hook.vue';
 import Medthos from './components/pages/methods.vue';
+import Home from './components/pages/home.vue';
+import Tags from './components/pages/tags.vue';
+
+
 
  
 export const routes = [
     {
         name: 'home',
         path: '/',
-        // component: AllProduct
+        component: Home
+    },
+    {
+name:'tags',
+path:'/tags',
+component:Tags
     },
     {
         name: 'hook',
