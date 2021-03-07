@@ -2308,46 +2308,88 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       data: {
-        tagName: ' '
+        tagsName: ' '
       },
-      admodel: true
+      admodel: false,
+      isAdding: false,
+      tags: []
     };
   },
-  created: function created() {
-    var _this = this;
+  methods: {
+    addTag: function addTag() {
+      var _this = this;
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(_this.data.tagsName.trim() == '')) {
+                  _context.next = 2;
+                  break;
+                }
+
+                return _context.abrupt("return", _this.error('tag name is Required', 'Oops'));
+
+              case 2:
+                _context.next = 4;
+                return _this.callApi('post', '/app/create-tag', _this.data);
+
+              case 4:
+                res = _context.sent;
+
+                if (res.status == 200) {
+                  _this.tags.unshift(res.data);
+
+                  _this.success('Tag has been added successfully', 'Success');
+
+                  _this.admodel = false;
+                  _this.data.tagsName = '';
+                } else {
+                  _this.warning('something went to wrong', 'Erorr');
+                }
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    }
+  },
+  created: function created() {
+    var _this2 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
       var res;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
         while (1) {
-          switch (_context.prev = _context.next) {
+          switch (_context2.prev = _context2.next) {
             case 0:
-              _context.next = 2;
-              return _this.callApi('post', '/app/create-tag', {
-                tagName: 'testtag'
-              });
+              _context2.next = 2;
+              return _this2.callApi('get', '/app/tags_get');
 
             case 2:
-              res = _context.sent;
-              console.log(res);
+              res = _context2.sent;
 
               if (res.status == 200) {
-                console.log(res);
+                _this2.tags = res.data;
+              } else {
+                _this2.warning('something went to wrong', 'Erorr');
               }
 
-            case 5:
+            case 4:
             case "end":
-              return _context.stop();
+              return _context2.stop();
           }
         }
-      }, _callee);
+      }, _callee2);
     }))();
   }
 });
@@ -2478,21 +2520,72 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {};
   },
   methods: {
     callApi: function callApi(method, url, dataObj) {
-      try {
-        return axios({
-          method: method,
-          url: url,
-          data: dataObj
-        });
-      } catch (e) {
-        return e.response;
-      }
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return axios({
+                  method: method,
+                  url: url,
+                  data: dataObj
+                });
+
+              case 3:
+                return _context.abrupt("return", _context.sent);
+
+              case 6:
+                _context.prev = 6;
+                _context.t0 = _context["catch"](0);
+                return _context.abrupt("return", _context.t0.response);
+
+              case 9:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 6]]);
+      }))();
+    },
+    info: function info(desc, title) {
+      this.$Notice.info({
+        title: title,
+        desc: desc
+      });
+    },
+    success: function success(desc, title) {
+      this.$Notice.success({
+        title: title,
+        desc: desc
+      });
+    },
+    warning: function warning(desc, title) {
+      this.$Notice.warning({
+        title: title,
+        desc: desc
+      });
+    },
+    error: function error(desc, title) {
+      this.$Notice.error({
+        title: title,
+        desc: desc
+      });
     }
   }
 });
@@ -86670,12 +86763,44 @@ var render = function() {
               _vm._v("Tags "),
               _c(
                 "button",
+                {
+                  on: {
+                    click: function($event) {
+                      _vm.admodel = true
+                    }
+                  }
+                },
                 [_c("Icon", { attrs: { type: "md-add" } }), _vm._v("Add Tag")],
                 1
               )
             ]),
             _vm._v(" "),
-            _vm._m(0),
+            _c("div", { staticClass: "_overflow _table_div" }, [
+              _c(
+                "table",
+                { staticClass: "_table" },
+                [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _vm._l(_vm.tags, function(tag, i) {
+                    return _vm.tags.length
+                      ? _c("tr", { key: i }, [
+                          _c("td", [_vm._v(_vm._s(tag.id))]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "_table_name" }, [
+                            _vm._v(_vm._s(tag.tagsName))
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(tag.created_at))]),
+                          _vm._v(" "),
+                          _vm._m(1, true)
+                        ])
+                      : _vm._e()
+                  })
+                ],
+                2
+              )
+            ]),
             _vm._v(" "),
             _c(
               "Modal",
@@ -86693,22 +86818,47 @@ var render = function() {
                 }
               },
               [
-                _c("p", [_vm._v("Content of dialog")]),
-                _vm._v(" "),
-                _c("p", [_vm._v("Content of dialog")]),
-                _vm._v(" "),
-                _c("p", [_vm._v("Content of dialog")]),
+                _c("Input", {
+                  staticStyle: { width: "300px" },
+                  attrs: { placeholder: "Enter tag name..." },
+                  model: {
+                    value: _vm.data.tagsName,
+                    callback: function($$v) {
+                      _vm.$set(_vm.data, "tagsName", $$v)
+                    },
+                    expression: "data.tagsName"
+                  }
+                }),
                 _vm._v(" "),
                 _c("div", { attrs: { slot: "footer" }, slot: "footer" }, [
-                  _c("button", { attrs: { type: "default" } }, [
-                    _vm._v("Close")
-                  ]),
+                  _c(
+                    "button",
+                    {
+                      attrs: { type: "default" },
+                      on: {
+                        click: function($event) {
+                          _vm.admodel = false
+                        }
+                      }
+                    },
+                    [_vm._v("Close")]
+                  ),
                   _vm._v(" "),
-                  _c("button", { attrs: { type: "primary" } }, [
-                    _vm._v("Add Tag")
-                  ])
+                  _c(
+                    "button",
+                    {
+                      attrs: {
+                        type: "primary",
+                        disabled: _vm.isAdding,
+                        loading: _vm.isAdding
+                      },
+                      on: { click: _vm.addTag }
+                    },
+                    [_vm._v(_vm._s(_vm.isAdding ? "Adding..." : "Add Tag"))]
+                  )
                 ])
-              ]
+              ],
+              1
             )
           ],
           1
@@ -86722,55 +86872,47 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "_overflow _table_div" }, [
-      _c("table", { staticClass: "_table" }, [
-        _c("tr", [
-          _c("th", [_vm._v("Id")]),
-          _vm._v(" "),
-          _c("th", [_vm._v("Tag Name")]),
-          _vm._v(" "),
-          _c("th", [_vm._v("Created At")]),
-          _vm._v(" "),
-          _c("th", [_vm._v("Action")])
-        ]),
-        _vm._v(" "),
-        _c("tr", [
-          _c("td", [_vm._v("1")]),
-          _vm._v(" "),
-          _c("td", { staticClass: "_table_name" }, [_vm._v("Laaa")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("12/12/12")]),
-          _vm._v(" "),
-          _c("td", [
-            _c(
-              "button",
-              {
-                staticClass: "_btn _action_btn view_btn1",
-                attrs: { type: "button" }
-              },
-              [_vm._v("View")]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "_btn _action_btn edit_btn1",
-                attrs: { type: "button" }
-              },
-              [_vm._v("Edit")]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "_btn _action_btn make_btn1",
-                attrs: { type: "button" }
-              },
-              [_vm._v("Delete")]
-            )
-          ])
-        ])
-      ])
+    return _c("tr", [
+      _c("th", [_vm._v("Id")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Tag Name")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Created At")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Action")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c(
+        "button",
+        {
+          staticClass: "_btn _action_btn view_btn1",
+          attrs: { type: "button" }
+        },
+        [_vm._v("View")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "_btn _action_btn edit_btn1",
+          attrs: { type: "button" }
+        },
+        [_vm._v("Edit")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "_btn _action_btn make_btn1",
+          attrs: { type: "button" }
+        },
+        [_vm._v("Delete")]
+      )
     ])
   }
 ]

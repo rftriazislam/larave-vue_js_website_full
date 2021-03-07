@@ -5,7 +5,7 @@
 			
 
         <div class="_1adminOverveiw_table_recent _box_shadow _border_radious _mar_b30 _p20">
-					<p class="_title0">Tags <button><Icon type="md-add"/>Add Tag</button></p>
+					<p class="_title0">Tags <button  @click="admodel=true"><Icon type="md-add"/>Add Tag</button></p>
 
 					<div class="_overflow _table_div">
 						<table class="_table">
@@ -20,14 +20,13 @@
 
 
 								<!-- ITEMS -->
-							<tr>
-								<td>1</td>
-								<td class="_table_name">Laaa</td>
-								<td>12/12/12</td>
+							<tr v-for="(tag ,i) in tags" :key="i" v-if="tags.length">
+								<td>{{tag.id}}</td>
+								<td class="_table_name">{{tag.tagsName}}</td>
+								<td>{{tag.created_at}}</td>
 								<td>
 									<button class="_btn _action_btn view_btn1" type="button">View</button>
 									<button class="_btn _action_btn edit_btn1" type="button">Edit</button>
-									
 									<button class="_btn _action_btn make_btn1" type="button">Delete</button>
 								</td>
 							</tr>
@@ -43,13 +42,11 @@
         v-model="admodel"
         title="Common Modal dialog box title"
         :mask-closeable="false">
-        <p>Content of dialog</p>
-        <p>Content of dialog</p>
-        <p>Content of dialog</p>
+        <Input v-model="data.tagsName" placeholder="Enter tag name..." style="width: 300px" />
 
-		<div slot="footer">
-<button type="default">Close</button>
-<button type="primary">Add Tag</button>
+		<div slot="footer"> 
+<button type="default" @click="admodel=false">Close</button>
+<button type="primary"  @click="addTag" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Adding...':'Add Tag'}}</button>
 
 		</div>
     </Modal>
@@ -66,18 +63,51 @@ export default {
 data(){
 return {
 	data:{
-		tagName:' '
+		tagsName:' '
 	},
-	admodel :true
+	admodel :false ,
+	isAdding:false,
+	tags:[],
 }
 },
-
-	async created(){
-		const res=await this.callApi('post','/app/create-tag',{tagName:'testtag'});
-	console.log(res);
-	if(res.status==200){
-			console.log(res);
+methods:{
+async addTag(){
+		if(this.data.tagsName.trim()== '')return this.error('tag name is Required','Oops')
+       const res=await this.callApi('post','/app/create-tag',this.data);
+  
+	  if(res.status==200){
+		    this.tags.unshift(res.data)
+			this.success('Tag has been added successfully','Success')
+			this.admodel =false 
+		    this.data.tagsName=''
+		}else{
+		this.warning('something went to wrong','Erorr')
 		}
+
+},
+		
+	
+},
+async created(){
+	const res=await this.callApi('get','/app/tags_get');
+	  
+
+	if(res.status==200){
+       this.tags=res.data
+	}else{
+		this.warning('something went to wrong','Erorr')
+
 	}
+}
+
+
+
+
+
+
+
+
+
+ 
 }
 </script>
