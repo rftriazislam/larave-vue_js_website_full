@@ -24,6 +24,24 @@ $this->validate($request,[
 
     }
 
+
+public function edit_tags(Request $request){
+    // $this->validate($request,[
+    //     'tagsName'=>'required',
+    //     'id'=>'red'
+    //     ]);  
+
+$tags=tags::where('id',$request->id)->first();
+$tags->update([
+    'tagsName'=>$request->tagsName
+]);
+
+}
+
+public function delete_tags(Request $request){
+    $tags=tags::where('id',$request->id)->delete();
+}
+
 public function get_tags(){
     $tags=tags::all();
     if ($tags) {

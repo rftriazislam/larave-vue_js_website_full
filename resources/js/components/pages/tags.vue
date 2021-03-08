@@ -26,8 +26,8 @@
 								<td>{{tag.created_at}}</td>
 								<td>
 									<button class="_btn _action_btn view_btn1" type="button">View</button>
-									<button class="_btn _action_btn edit_btn1" type="button">Edit</button>
-									<button class="_btn _action_btn make_btn1" type="button">Delete</button>
+									<button class="_btn _action_btn edit_btn1" type="button" @click="showEditModel(tag,i)">Edit</button>
+									<button class="_btn _action_btn make_btn1" type="button" @click="showDeletingModel(tag,i)">Delete</button>
 								</td>
 							</tr>
 								<!-- ITEMS -->
@@ -40,15 +40,42 @@
 
 	 <Modal
         v-model="admodel"
-        title="Common Modal dialog box title"
+        title="Add tag"
         :mask-closeable="false">
         <Input v-model="data.tagsName" placeholder="Enter tag name..." style="width: 300px" />
 
 		<div slot="footer"> 
-<button type="default" @click="admodel=false">Close</button>
-<button type="primary"  @click="addTag" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Adding...':'Add Tag'}}</button>
+           <button type="default" @click="admodel=false">Close</button>
+           <button type="primary"  @click="addTag" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Adding...':'Add Tag'}}</button>
 
 		</div>
+    </Modal>
+
+	 <Modal
+        v-model="editModel"
+        title="Edit tag"
+        :mask-closeable="false"
+		:closeable="false">
+        <Input v-model="editData.tagsName" placeholder="Enter tag name..." style="width: 300px" />
+
+		<div slot="footer"> 
+            <button type="default" @click="editModel=false">Close</button>
+            <button type="primary"  @click="editTag" :disabled="isAdding" :loading="isAdding">{{isAdding ? 'Edit...':'Edit Tag'}}</button>
+
+		</div>
+    </Modal>
+	  <Modal v-model="showDeleteModel" width="360">
+        <p slot="header" style="color:#f60;text-align:center">
+            <Icon type="ios-information-circle"></Icon>
+            <span>Delete confirmation</span>
+        </p>
+        <div style="text-align:center">
+            <p>Are you sure you want to delete tag ?</p>
+           
+        </div>
+        <div slot="footer">
+            <Button type="error" size="large" long :loading="showDeleteModel" :disabled="showDeleteModel" @click="deleteTag" >Delete</Button>
+        </div>
     </Modal>
 
 	  </div>
@@ -65,14 +92,25 @@ return {
 	data:{
 		tagsName:' '
 	},
+	editModel:false,
 	admodel :false ,
 	isAdding:false,
+	showDeleteModel:false,
+
+
 	tags:[],
+	editData:{ 
+		tagsName : ''
+	
+	},
+	deleteItem:{},
+	index:-1,
+	i:-1
 }
 },
 methods:{
 async addTag(){
-		// if(this.data.tagsName.trim()== '')return this.error('Tag name is Required','Oops')
+		if(this.data.tagsName.trim()== '')return this.error('Tag name is Required','Oops')
        const res=await this.callApi('post','/app/create-tag',this.data);
   
 	  if(res.status==200){
@@ -100,7 +138,66 @@ async addTag(){
 	    }
 
 },
+		async editTag(){
+		if(this.editData.tagsName.trim()== '')return this.error('Tag name is Required','Oops')
+       const res=await this.callApi('post','/app/edit-tag',this.editData);
+  
+	  if(res.status==200){
+		  this.tags[this.index].tagsName=this.editData.tagsName
+			this.success('Tag has been added successfully','Success')
+			this.editModel =false 
+		   
+		}else{
+   
+			 if(res.status==422){
+
+        //    console.log(res.data.errors.tagsName[0]);
+
+                 if(res.data.errors.tagsName){
+                 	this.warning(res.data.errors.tagsName[0],'Filled')
+                      }
+			 }else{
+	               	this.warning('something went to wrong','Erorr')
+					   
+
+			 }
+			
+
+
+	    }
+
+},
+showEditModel(tag,index){
+	let obj={
+		id:tag.id,
+		tagsName:tag.tagsName
+	}
+	this.editData=obj
+	this.editModel=true
+	this.index=index
+},
+async deleteTag(){
+		if(!confirm('Are you sure to delete this tag '))return 
+		this.$set(tag,'isdeleting',true)
+       const res=await this.callApi('post','/app/delete-tag',this.deleteItem);
+  
+	  if(res.status==200){
+		  this.tags.splice(i,1)
+			this.success('Tag has been added successfully','Success')
 		
+		   
+		}else{
+   
+	               	this.warning('something went to wrong','Erorr')
+
+	    }
+
+},
+showDeletingModel(tag,i){
+	this.deleteItem=tag
+	this.i=i
+	this.showDeleteModel=true
+}
 	
 },
 async created(){
@@ -115,14 +212,5 @@ async created(){
 	}
 }
 
-
-
-
-
-
-
-
-
- 
 }
 </script>

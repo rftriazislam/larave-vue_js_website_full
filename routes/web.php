@@ -19,6 +19,13 @@ Route::get('/admin', function () {
 
 Route::post('/app/create-tag',  [AdminController::class,'add_tags']);
 
+Route::post('/app/edit-tag',  [AdminController::class,'edit_tags']);
+Route::post('/app/delete-tag',  [AdminController::class,'delete_tags']);
+
+
+
+
+
 Route::get('/app/tags_get',  [AdminController::class,'get_tags']);
 
 
