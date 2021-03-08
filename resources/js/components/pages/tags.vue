@@ -72,7 +72,7 @@ return {
 },
 methods:{
 async addTag(){
-		if(this.data.tagsName.trim()== '')return this.error('tag name is Required','Oops')
+		// if(this.data.tagsName.trim()== '')return this.error('Tag name is Required','Oops')
        const res=await this.callApi('post','/app/create-tag',this.data);
   
 	  if(res.status==200){
@@ -81,8 +81,23 @@ async addTag(){
 			this.admodel =false 
 		    this.data.tagsName=''
 		}else{
-		this.warning('something went to wrong','Erorr')
-		}
+   
+			 if(res.status==422){
+
+        //    console.log(res.data.errors.tagsName[0]);
+
+                 if(res.data.errors.tagsName){
+                 	this.warning(res.data.errors.tagsName[0],'Filled')
+                      }
+			 }else{
+	               	this.warning('something went to wrong','Erorr')
+					   
+
+			 }
+			
+
+
+	    }
 
 },
 		

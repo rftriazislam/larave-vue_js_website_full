@@ -2329,18 +2329,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(_this.data.tagsName.trim() == '')) {
-                  _context.next = 2;
-                  break;
-                }
-
-                return _context.abrupt("return", _this.error('tag name is Required', 'Oops'));
-
-              case 2:
-                _context.next = 4;
+                _context.next = 2;
                 return _this.callApi('post', '/app/create-tag', _this.data);
 
-              case 4:
+              case 2:
                 res = _context.sent;
 
                 if (res.status == 200) {
@@ -2351,10 +2343,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.admodel = false;
                   _this.data.tagsName = '';
                 } else {
-                  _this.warning('something went to wrong', 'Erorr');
+                  if (res.status == 422) {
+                    //    console.log(res.data.errors.tagsName[0]);
+                    if (res.data.errors.tagsName) {
+                      _this.warning(res.data.errors.tagsName[0], 'Filled');
+                    }
+                  } else {
+                    _this.warning('something went to wrong', 'Erorr');
+                  }
                 }
 
-              case 6:
+              case 4:
               case "end":
                 return _context.stop();
             }

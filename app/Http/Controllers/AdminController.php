@@ -7,6 +7,12 @@ use App\Models\tags;
 class AdminController extends Controller
 {
     public function add_tags(Request $request){
+
+$this->validate($request,[
+'tagsName'=>'required'
+]);
+
+
       $tags=new tags();
       $tags->tagsName=$request->tagsName;
       
