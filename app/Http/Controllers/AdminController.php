@@ -51,4 +51,11 @@ public function get_tags(){
     }
 }
 
+
+public function upload_file(Request $request){
+     $picName=time().'.'.$request->file->extension();
+     $request->file->move(public_path('uploads'),$picName);
+     return $picName;
+}
+
 }

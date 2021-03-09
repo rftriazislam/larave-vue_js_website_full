@@ -9,6 +9,17 @@
     <title>Blog</title>
 
     <link href="/css/main.css" type="text/css" rel="stylesheet" />
+
+<script>
+
+(function(){
+    window.Laravel={ 
+        csrfToken:'{{csrf_token()}}'
+    };
+})();
+</script>
+
+
 </head>
 
 <body>

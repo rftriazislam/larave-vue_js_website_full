@@ -22,6 +22,7 @@ Route::post('/app/create-tag',  [AdminController::class,'add_tags']);
 Route::post('/app/edit-tag',  [AdminController::class,'edit_tags']);
 Route::post('/app/delete-tag',  [AdminController::class,'delete_tags']);
 
+Route::post('/app/upload',  [AdminController::class,'upload_file']);
 
 
 
