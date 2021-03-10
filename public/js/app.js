@@ -2040,11 +2040,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       data: {
-        tagsName: ' '
+        categoryName: '',
+        image: ''
       },
       editModel: false,
       admodel: false,
@@ -2207,6 +2218,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.deleteItem = tag;
       this.deletingInex = i;
       this.showDeleteModel = true;
+    },
+    handleSuccess: function handleSuccess(res, file) {
+      this.data.image = res;
+    },
+    handleError: function handleError(res, file) {
+      // console.log('this',file)
+      this.$Notice.warning({
+        title: 'The file format is incorrect',
+        desc: "".concat(file.errors.file.length ? file.errprs.file[0] : 'SOmething went to wrong !')
+      });
+    },
+    handleFormatError: function handleFormatError(file) {
+      this.$Notice.warning({
+        title: 'The file format is incorrect',
+        desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
+      });
+    },
+    handleMaxSize: function handleMaxSize(file) {
+      this.$Notice.warning({
+        title: 'Exceeding file size limit',
+        desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+      });
     }
   },
   created: function created() {
@@ -86512,7 +86545,16 @@ var render = function() {
                   {
                     attrs: {
                       type: "drag",
-                      headers: { "x-csrf-token": _vm.token },
+                      headers: {
+                        "x-csrf-token": _vm.token,
+                        "X-Requested-With": "XMLHttpRequest"
+                      },
+                      "on-success": _vm.handleSuccess,
+                      format: ["jpg", "jpeg", "png"],
+                      "max-size": 2048,
+                      "on-error": _vm.handleError,
+                      "on-format-error": _vm.handleFormatError,
+                      "on-exceeded-size": _vm.handleMaxSize,
                       action: "/app/upload"
                     }
                   },
@@ -86532,6 +86574,14 @@ var render = function() {
                     )
                   ]
                 ),
+                _vm._v(" "),
+                _vm.data.image
+                  ? _c("div", { staticClass: "image_thumb" }, [
+                      _c("img", {
+                        attrs: { src: "/uploads/" + _vm.data.image }
+                      })
+                    ])
+                  : _vm._e(),
                 _vm._v(" "),
                 _c("div", { attrs: { slot: "footer" }, slot: "footer" }, [
                   _c(

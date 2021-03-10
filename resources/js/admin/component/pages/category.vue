@@ -48,14 +48,24 @@
          <Upload
        
         type="drag"
-        :headers="{'x-csrf-token':token}"
+        :headers="{'x-csrf-token':token,'X-Requested-With':'XMLHttpRequest'}"
+	
+        :on-success="handleSuccess"
+        :format="['jpg','jpeg','png']"
+        :max-size="2048"
+        :on-error="handleError"
+		 :on-format-error="handleFormatError"
+        :on-exceeded-size="handleMaxSize"
         action="/app/upload">
         <div style="padding: 20px 0">
             <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
             <p>Click or drag files here to upload</p>
         </div>
     </Upload>
+<div class="image_thumb" v-if="data.image">
+	<img :src="`/uploads/${data.image}`"/>
 
+</div>
 
 		<div slot="footer"> 
            <button type="default" @click="admodel=false">Close</button>
@@ -103,7 +113,8 @@ export default {
 data(){
 return {
 	data:{
-		tagsName:' '
+		categoryName:'',
+		image:''
 	},
 	editModel:false,
 	admodel :false ,
@@ -215,7 +226,30 @@ showDeletingModel(tag,i){
 	this.deletingInex=i
 	this.showDeleteModel=true
 
-}
+},
+       handleSuccess (res, file) {
+                this.data.image=res
+            },
+			  handleError (res, file) {
+          
+				// console.log('this',file)
+				 this.$Notice.warning({
+                    title: 'The file format is incorrect',
+                    desc: `${file.errors.file.length ? file.errprs.file[0]:'SOmething went to wrong !'}`
+                });
+            },
+            handleFormatError (file) {
+                this.$Notice.warning({
+                    title: 'The file format is incorrect',
+                    desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
+                });
+            },
+            handleMaxSize (file) {
+                this.$Notice.warning({
+                    title: 'Exceeding file size limit',
+                    desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+                });
+            },
 	
 },
 async created(){
