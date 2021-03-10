@@ -46,7 +46,7 @@
         <div class="space"></div>
         <br>
          <Upload
-       
+       ref="uploads"
         type="drag"
         :headers="{'x-csrf-token':token,'X-Requested-With':'XMLHttpRequest'}"
 	
@@ -62,9 +62,11 @@
             <p>Click or drag files here to upload</p>
         </div>
     </Upload>
-<div class="image_thumb" v-if="data.image">
-	<img :src="`/uploads/${data.image}`"/>
-
+<div class="demo-upload-list" v-if="data.image">
+	<img  :src="`/uploads/${data.image}`"/>
+<div class="demo-upload-list-cover">
+	<Icon type="ios-trash-outline" @click="deleteImage"></Icon>
+</div>
 </div>
 
 		<div slot="footer"> 
@@ -250,6 +252,19 @@ showDeletingModel(tag,i){
                     desc: 'File  ' + file.name + ' is too large, no more than 2M.'
                 });
             },
+			async deleteImage(){
+				let image=this.data.image
+				this.data.image=''
+				this.$refs.uploads.clearFiles()
+                   const res=await this.callApi('post','/app/delete-image',{image:image});
+				
+				if(res.status!=200){
+		 this.data.image=image
+				               	this.warning('something went to wrong','Erorr')
+
+		   
+		}
+			}
 	
 },
 async created(){
