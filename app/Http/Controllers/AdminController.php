@@ -29,6 +29,7 @@ public function edit_tags(Request $request){
     // $this->validate($request,[
     //     'tagsName'=>'required',
     //     'id'=>'red'
+    
     //     ]);  
 
 $tags=tags::where('id',$request->id)->first();
